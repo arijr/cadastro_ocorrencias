@@ -1,0 +1,79 @@
+{% extends "base/base.html" %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "bower_components/select2/dist/css/select2.min.css" %}">
+{% endblock %}
+
+{% block content %}
+<section class="content-header">
+  <h1 class="box-title">Lista de Ocorrências
+    <small>Layout with collapsed sidebar on load</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#">Layout</a></li>
+    <li class="active">Collapsed Sidebar</li>
+  </ol>
+</section>
+
+<section class="content">
+  <!-- SELECT2 EXAMPLE -->
+  <div class="col-md-12">
+
+
+  <div class="box box-default">
+    <div class="box-header with-border">
+      <h3 class="box-title">Dados da Ocorrência</h3>
+
+      <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+      <div class="row">
+        <div class="col-md-6">
+          <form class="form" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+          <!-- /.form-group -->
+          <button type="submit">Salvar</button>
+          {# {% if ocorrencia %} #}
+            {# <a href="{% url 'delete_occ' ocorrencia.id %}"> {% bootstrap_icon "close" %} Apagar</a> #}
+          {# {% endif %} #}
+        </div>
+        <!-- /.col -->
+
+      <div class="col-md-6">
+        <div class="col-md-6">
+          {% bootstrap_form endereco_form %}
+        </div>
+        <div class="col-md-6">
+          {% bootstrap_form requerente_form %}
+        </div>
+      </div>
+      </form>
+      <!-- /.form -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- /.box -->
+  </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block scripts%}
+<script type="text/javascript" src="{% static "bower_components/select2/dist/js/select2.full.min.js" %}"></script>
+<script>
+$(function () {
+  //Initialize Select2 Elements
+    $('.select2').select2()
+  })
+</script>
+{% endblock %}

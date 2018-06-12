@@ -1,0 +1,63 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Sidebar Collapsed
+    <small>Layout with collapsed sidebar on load</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#">Layout</a></li>
+    <li class="active">Collapsed Sidebar</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="box">
+  <div class="box-header">
+    <h3 class="box-title">Lista de Ocorrências</h3>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <table id="example1" class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>Requerente</th>
+        <th>Endereço</th>
+        <th>Motivo</th>
+        <th>Data</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for ocorrencia in object_list %}
+      <tr>
+        <td>{{ ocorrencia.solicitante.nome }}</td>
+        <td>{{ ocorrencia.endereco.rua  }}</td>
+        <td>{{ ocorrencia.motivo }}</td>
+        <td>{{ ocorrencia.data }}</td>
+        <td><a href="{% url 'occ_detail' ocorrencia.pk %}">Editar</a>
+          {# <a href="{% url 'delete_occ' ocorrencia.id %}"> {% bootstrap_icon "close" %} Apagar</a> #}
+          <a href="{% url 'occ_delete' ocorrencia.pk %}">Apagar</a></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+      <tfoot>
+      <tr>
+        <th>Requerente</th>
+        <th>Endereço</th>
+        <th>Motivo</th>
+        <th>Data</th>
+        <th>Ações</th>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+  <!-- /.box-body -->
+</div>
+<!-- /.box -->
+  <a href="{% url 'occ_create' %}">Nova Ocorrencia</a>
+</section>
+{% endblock %}
