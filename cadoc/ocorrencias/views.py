@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+# from django.views import generic
+# from django.forms import modelformset_factory
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, ModelFormMixin
 from django.views.generic.list import ListView
 
@@ -14,25 +16,46 @@ class OcorrenciaListView(ListView):
 class OcorrenciaCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
-        context  = super().get_context_data(**kwargs)
-        context['endereco_form'] = EnderecoForm()
-        context['requerente_form'] = SolicitanteForm()
-        print (context)
+        context  = super(OcorrenciaCreateView,self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['endereco_form'] = EnderecoForm(self.request.POST)
+            context['requerente_form'] = SolicitanteForm(self.request.POST)
+            # context['ocorrencia_form'] = OcorrenciaForm(self.request.POST)
+
+        else:
+            context['endereco_form'] = EnderecoForm()
+            context['requerente_form'] = SolicitanteForm()
+            # context['ocorrencia_form'] = OcorrenciaForm()
+
         return context
 
     def form_valid(self,form):
-        self.object = form.save(commit = False)
-        self.object.endereco = self.endereco
-        self.object.solicitante = self.Solicitante
-        self.object.save()
 
+        self.object = form.save(commit= False)
+        context = self.get_context_data()
+        FormEndereco = context['endereco_form']
+        FormSolicitante = context['requerente_form']
+        # FormOcorrencia = context['ocorrencia_form']
+        # if FormEndereco.is_valid() and FormSolicitante.is_valid():
 
-    #     ocorrencia = form.instance
-    #     print (ocorrencia)
-    #     for f in ocorrencia.Endereco.all():
-    #         a, created = Ocorrencia.objects.get_or_create(solicitante = self.request.solicitante, endereco=f)
-    #     response = super(OcorrenciaCreateView, self).form_valid(form)
-    #     return response
+        if FormEndereco.is_valid() :
+            endereco = FormEndereco.save()
+            self.object.endereco = endereco
+
+        if FormSolicitante.is_valid():
+            solicitante = FormSolicitante.save()
+            self.object.solicitante = solicitante
+        # if FormOcorrencia.is_valid():
+            # ocorrencia = FormOcorrencia.save(commit=False)
+            # ocorrencia.endereco = endereco
+            # ocorrencia.solicitante = solicitante
+            # self.object.endereco = endereco
+
+        # ocorrencia.save()
+        # self.object.Ocorrencia = ocorrencia
+        # self.object.save()
+
+        return super(OcorrenciaCreateView,self).form_valid(form)
 
     model = Ocorrencia
     # fields = ['motivo', 'descricao']

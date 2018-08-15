@@ -18,14 +18,15 @@ from django.contrib import admin
 from django.urls import include, path
 from ocorrencias import views
 
-#TODO: limpar resto de codigo
-# if settings.DEBUG:
-#     import debug_toolbar
-#     urlpatterns = [
-#         path('___debug__/',include(debug_toolbar.urls)),
-#     ]
 
 urlpatterns = [
     path('ocorrencias/', include('ocorrencias.urls')),
     path('admin/', admin.site.urls),
 ]
+
+#TODO: limpar resto de codigo
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path(r'^___debug__/',include(debug_toolbar.urls)),
+    ]
