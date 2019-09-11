@@ -129,3 +129,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 INTERNAL_IPS = ('127.0.0.1','localhost')
+
+STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = 'media'
+
+LOGIN_URL = '/login/'
+
+LOGIN_REDIRECT_URL = 'home'
